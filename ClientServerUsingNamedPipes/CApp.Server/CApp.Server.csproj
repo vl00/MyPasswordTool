@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CApp.Shard\server\NamedPipeServerConnection.cs" Link="NamedPipeServerConnection.cs" />
+    <Compile Include="..\CApp.Shard\server\Server.cs" Link="Server.cs" />
+    <Compile Include="..\CApp.Shard\server\VirtualConnectionServer.cs" Link="VirtualConnectionServer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SilverEx.Log">
+      <HintPath>E:\workspace\.my_packages\SilverEx.Log\0.2.0.0\lib\netstandard2.0\SilverEx.Log.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Import Project="..\CApp.Shard\CApp.Shard.projitems" Label="Shared" />
+
+</Project>

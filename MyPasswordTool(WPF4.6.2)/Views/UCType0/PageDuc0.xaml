@@ -1,0 +1,154 @@
+﻿<common:MvvmAwarePage x:Class="MyPasswordTool.Views.PageDuc0"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+             xmlns:local="clr-namespace:MyPasswordTool"
+             xmlns:common="clr-namespace:Common"
+			 xmlns:slex_wpf="clr-namespace:SilverEx.Xaml" 
+             mc:Ignorable="d" d:DesignHeight="540" d:DesignWidth="550"
+             common:MvvmUtil.IsAutoSetViewModel="True">
+
+    <FrameworkElement.Resources>
+		<local:PaTagsToTagStringValueConverter x:Key="vc_tag"/>
+
+		<LinearGradientBrush x:Key="btn_backgroud" EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+			<GradientStop Color="#FFBBBABA" Offset="1"/>
+			<GradientStop Color="White"/>
+		</LinearGradientBrush>
+
+		<SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3"/>
+		<SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA"/>
+		<SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5"/>
+		<Style x:Key="TextBoxStyle1" TargetType="{x:Type TextBox}">
+			<Setter Property="Background" Value="White"/>
+			<Setter Property="BorderBrush" Value="{StaticResource TextBox.Static.Border}"/>
+			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+			<Setter Property="HorizontalContentAlignment" Value="Left"/>
+			<Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+			<Setter Property="AllowDrop" Value="true"/>
+			<Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+			<Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type TextBox}">
+						<Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+							<ScrollViewer x:Name="PART_ContentHost" Focusable="false" Template="{DynamicResource AppleStyleScrollBarStyle}"/>
+						</Border>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsEnabled" Value="false">
+								<Setter Property="Opacity" TargetName="border" Value="0.56"/>
+							</Trigger>
+							<Trigger Property="IsMouseOver" Value="true">
+								<Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.MouseOver.Border}"/>
+							</Trigger>
+							<Trigger Property="IsKeyboardFocused" Value="true">
+								<Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.Focus.Border}"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+			<Style.Triggers>
+				<MultiTrigger>
+					<MultiTrigger.Conditions>
+						<Condition Property="IsInactiveSelectionHighlightEnabled" Value="true"/>
+						<Condition Property="IsSelectionActive" Value="false"/>
+					</MultiTrigger.Conditions>
+					<Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+				</MultiTrigger>
+			</Style.Triggers>
+		</Style>
+
+    </FrameworkElement.Resources>
+
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+            <RowDefinition Height="{Binding Height,Source={StaticResource foot_RowDefinition}}"/>
+		</Grid.RowDefinitions>
+
+        <Border x:Name="div" CornerRadius="3" Margin="15,10" BorderThickness="1" BorderBrush="#FFF1EBEB" Background="{StaticResource a_GrayBackground}" SnapsToDevicePixels="True">
+            <Grid Background="{StaticResource a_GrayBackground}" Margin="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+            	<Grid Background="{StaticResource a_GrayBackground}" >
+            		<Grid.ColumnDefinitions>
+            			<ColumnDefinition Width="*"/>
+            			<ColumnDefinition Width="100"/>
+            		</Grid.ColumnDefinitions>
+                    <Border BorderBrush="Black" BorderThickness="0.5" Grid.Column="1" Height="80" Width="80" Background="{Binding PaInfo.ICO,Converter={StaticResource ByteArrayToImageBackground}}">
+            			<Image d:IsHidden="True" SnapsToDevicePixels="True" Stretch="UniformToFill"  Source="{Binding PaInfo.ICO,Converter={StaticResource ByteArrayToBitmapImage}}"/>
+            		</Border>
+            		<TextBlock Height="16" Margin="27,20,10,0" TextWrapping="Wrap" Text="{Binding PaInfo.Title, Mode=TwoWay}" VerticalAlignment="Top" />
+                    <TextBox Margin="27,55,10,0" Style="{StaticResource TextBoxBlockStyle}" Text="{Binding PaInfo.TitleDesc, Mode=TwoWay}" 
+                             ToolTipService.ToolTip="{Binding PaInfo.TitleDesc, Mode=TwoWay}" VerticalAlignment="Top"/>
+            	</Grid>
+
+            	<Grid Grid.Row="1">
+            		<ScrollViewer Template="{DynamicResource AppleStyleScrollBarStyle}" VerticalScrollBarVisibility="Auto" SnapsToDevicePixels="True">
+                        <Grid  Margin="40,20" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="150"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="用户名/凭证" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                            <TextBox Grid.Column="1" IsReadOnly="True" Text="{Binding DataModel.UserName}" Margin="20,0,80,0" VerticalAlignment="Bottom" Background="White"/>
+
+                            <TextBlock Grid.Row="1" Text="密码" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                            <TextBox x:Name="txt_Pwd" IsReadOnly="True" Grid.Row="1" Grid.Column="1" Text="********" Margin="20,0,80,0"  VerticalAlignment="Bottom" Background="White"/>
+                            <Button x:Name="btn_Pwd" Grid.Row="1" Grid.Column="1"  Style="{StaticResource ButtonStyle1}" Background="{StaticResource btn_backgroud}" VerticalAlignment="Top" Height="15" Width="30" Margin="0,16.4,16,0"
+								    Tag="1" DataContext="{Binding DataModel.Pwd}" Click="btn_Pwd_click" HorizontalAlignment="Right" Grid.RowSpan="2"  >
+                                <TextBlock Foreground="#FF2C2525" Text="查看" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Button>
+
+                            <TextBlock Grid.Row="2" Text="Note" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding DataModel.Note}" TextWrapping="NoWrap" Margin="20,20,16,0" VerticalAlignment="Top" Height="130" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Style="{DynamicResource TextBoxStyle1}" IsReadOnly="True" />
+
+                            <TextBlock Grid.Row="3" Text="附件" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0"/>
+                            <Button x:Name="btn_filedownload" DataContext="{Binding FileModel}" Click="btn_filedownload_click" 
+								    Style="{StaticResource ButtonStyle1}" Background="{StaticResource btn_backgroud}"
+								    Grid.Row="3" Grid.Column="1" Margin="20,20,0,0"  VerticalAlignment="Top" Height="18" HorizontalAlignment="Left" Width="40">
+                                <TextBlock Foreground="#FF2C2525" Text="查看" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Button>
+                            <TextBlock x:Name="txt_nonfile" Grid.Column="1" HorizontalAlignment="Left" Height="15.24" Margin="80,20,0,0" Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+
+                            <ItemsControl Grid.ColumnSpan="2" Margin="20,10" Grid.Row="4" Grid.RowSpan="2" 
+							    Style="{StaticResource TagsListStyle1}" ItemTemplate="{StaticResource Duc0_TagsListItemTmp}"
+							    ItemsSource="{Binding Tags, Converter={StaticResource DebugValueConverter}}"
+							    />
+                        </Grid>
+                    </ScrollViewer>
+            	</Grid>
+                                        
+            </Grid>
+        </Border>
+
+		<Border Grid.Row="2" Background="{StaticResource footer_GrayBackground}" BorderThickness="0,1,0,0" BorderBrush="{StaticResource arealine_Brush}" >
+			<Button x:Name="btn_edit" Margin="20,5,0,5" Style="{StaticResource ButtonStyle1}" Background="{StaticResource btn_backgroud}" HorizontalAlignment="Left" Width="30" BorderThickness="1">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="Click">
+                        <slex_wpf:EventToDelegateCommand Command="{Binding RouteToEditCmd}" IsDetachOnAssociatedObjectUnloaded="False"/>
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
+				<TextBlock Foreground="#FF2C2525" Text="修改" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Button>
+        </Border>
+		<TextBlock x:Name="txt_time" Grid.ColumnSpan="2" Margin="20,6,16,6" Grid.Row="4" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Right"/>
+    </Grid>
+</common:MvvmAwarePage>

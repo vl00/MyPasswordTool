@@ -1,0 +1,140 @@
+﻿<common:MvvmAwarePage x:Class="MyPasswordTool.Views.PalockView"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+       xmlns:common="clr-namespace:Common"
+	   xmlns:slex_wpf="clr-namespace:SilverEx.Xaml" 
+       mc:Ignorable="d" 
+       x:Name="uc" d:DesignHeight="600" d:DesignWidth="960" 
+       common:MvvmUtil.IsAutoSetViewModel="True"
+       NavigationCacheMode="Disabled"
+       RenderTransformOrigin="0.5,0.5">
+
+    <FrameworkElement.Resources>
+        <SolidColorBrush x:Key="Brush1" Color="#999E9797"/>
+        <LinearGradientBrush x:Key="btn_backgroud" EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+            <GradientStop Color="#FFBBBABA" Offset="1"/>
+            <GradientStop Color="White"/>
+        </LinearGradientBrush>
+    </FrameworkElement.Resources>
+    <FrameworkElement.RenderTransform>
+        <TransformGroup>
+            <ScaleTransform/>
+            <SkewTransform/>
+            <RotateTransform/>
+            <TranslateTransform/>
+        </TransformGroup>
+    </FrameworkElement.RenderTransform>
+
+    <Grid x:Name="grid" >
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="LockGroup">
+                <VisualState x:Name="state_unlock">
+                    <Storyboard>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="r0">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-2000"/>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="r1">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="2000"/>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="uc">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="1" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="border">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+                        </DoubleAnimationUsingKeyFrames>
+                        <!--<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="uc">
+                            <DiscreteDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="uc">
+                            <DiscreteDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                        </DoubleAnimationUsingKeyFrames>-->
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="state_lock">
+                    <Storyboard>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="r0">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="-2000"/>
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="r1">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="2000"/>
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="uc">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="border">
+                            <!--<EasingDoubleKeyFrame KeyTime="0" Value="1"/>-->
+                            <EasingDoubleKeyFrame KeyTime="0:0:2" Value="1"/>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="50*"/>
+        </Grid.ColumnDefinitions>
+
+        <Rectangle x:Name="r0" Fill="{StaticResource Brush1}" Grid.Column="0" RenderTransformOrigin="0.5,0.5" StrokeThickness="0" Margin="0,0,0,0">
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+        <Rectangle x:Name="r1" Fill="{StaticResource Brush1}" RenderTransformOrigin="0.5,0.5" StrokeThickness="0" Grid.Column="1" Margin="0,0,0,0" >
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+
+        <Border x:Name="border" Grid.ColumnSpan="2" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center"
+				        Height="240" Width="540" CornerRadius="8"
+				        BorderThickness="0" Background="{StaticResource GrayBackground}" >
+            <!-- #FF18EE2C -->
+            <Grid x:Name="gd" Tag="openDB">
+                <Button Style="{StaticResource ButtonStyle1}" Background="{StaticResource btn_backgroud}" HorizontalAlignment="Left" Height="30" Margin="183.5,176,0,0" VerticalAlignment="Top" Width="144">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <slex_wpf:EventToDelegateCommand Command="{Binding OkCmd}" CommandParameter="{Binding Tag,ElementName=gd}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <TextBlock Foreground="#FF2C2525" Text="ok" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Button>
+                <TextBlock HorizontalAlignment="Left" Height="18" Margin="103,62,0,0" TextWrapping="Wrap" Text="db" VerticalAlignment="Top" Width="19"/>
+                <TextBlock HorizontalAlignment="Left" Height="20" Margin="94,110,0,0" TextWrapping="Wrap" Text="pwd" VerticalAlignment="Top" Width="28"/>
+
+                <TextBox x:Name="txt_db" HorizontalAlignment="Left" Height="20" Margin="156,62,0,0" 
+					               Style="{StaticResource RoundRectTextBox}" 
+                         Text="{Binding ConStr,Mode=TwoWay,ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}" 
+                         Validation.ErrorTemplate="{StaticResource ValidatesOnDataErrorsTemplate}"
+                         VerticalAlignment="Top" Width="225" />
+
+                <!--Password="{Binding Pwd, Mode=TwoWay}"-->
+                <PasswordBox x:Name="txt_pwd" Style="{StaticResource PasswordBoxStyle1}" Margin="156,110,0,0" 
+                             HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="225"
+                             PasswordChanged="PasswordBox_PasswordChanged" />
+
+                <Button x:Name="btn_openDB" Style="{StaticResource ButtonStyle1}" Background="{StaticResource btn_backgroud}" HorizontalAlignment="Left" Margin="415,62,0,0" VerticalAlignment="Top" Width="27" Click="btn_openDB_Click" Height="18" ToolTip="打开现有文件" Content="打开" Foreground="#FF744949"/>
+                <Button x:Name="btn_newDB" Style="{StaticResource ButtonStyle1}" Background="{StaticResource btn_backgroud}" HorizontalAlignment="Left" Margin="460,62,0,0" VerticalAlignment="Top" Width="27" Click="btn_newDB_Click" Height="18" ToolTip="新建文件" Content="新建" Foreground="#FF744949"/>
+            </Grid>
+        </Border>
+
+    </Grid>
+</common:MvvmAwarePage>

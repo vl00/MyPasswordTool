@@ -1,0 +1,34 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nav="clr-namespace:Common">
+
+    <Style TargetType="nav:MyPage">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="nav:MyPage">
+                    <ContentPresenter VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Content="{TemplateBinding Content}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="nav:MyFrame">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="nav:MyFrame">
+                    <Grid>
+                        <ContentPresenter x:Name="frame_root" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Content="{TemplateBinding Content}">
+                        </ContentPresenter>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

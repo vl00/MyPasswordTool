@@ -1,0 +1,128 @@
+﻿<Application x:Class="MyPasswordTool.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 mc:Ignorable="d" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+			 xmlns:local="clr-namespace:MyPasswordTool">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Resource/ScrollBarStyle1.xaml"/>
+                <ResourceDictionary Source="/MyPasswordTool;component/Themes/Resource/ScrollViewerStyle1.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MyPasswordTool;component/Themes/Resource/ButtonPanelStyle.xaml"/>
+                <ResourceDictionary Source="Themes/Resource/TreeViewItemStyle2.xaml" />
+                <ResourceDictionary Source="Themes/Resource/TreeViewStyle1.xaml"/>
+                <!--<ResourceDictionary Source="Themes/Resource/ListBoxStyle1.xaml"/>-->
+                <ResourceDictionary Source="Themes/Resource/TagsListTemplate.xaml"/>
+                <ResourceDictionary Source="Themes/Resource/SearchTextBoxStyle.xaml"/>
+                <ResourceDictionary Source="Themes/Resource/WindowStyle.xaml"/>
+                <ResourceDictionary Source="Themes/Resource/PasswordBoxStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:DebugValueConverter x:Key="DebugValueConverter" />
+            <local:BoolNullValueConverter x:Key="BoolNullValueConverter"/>
+            <local:ByteArrayToBitmapImageValueConverter x:Key="ByteArrayToBitmapImage"/>
+            <local:ByteArrayToImageBackgroundValueConverter x:Key="ByteArrayToImageBackground"/>
+            <local:BoolToVisibilityValueConverter x:Key="vc_BoolToVisibility"/>
+            <local:BoolNullToVisibilityValueConverter x:Key="vc_BoolNullToVisibilityValueConverter"/>
+            
+            <DrawingImage x:Key="appIcon">
+                <DrawingImage.Drawing>
+                    <ImageDrawing ImageSource="pack://application:,,,/MyPasswordTool;component/Themes/Resource/icon.ico" Rect="0 0 60 60" />
+                </DrawingImage.Drawing>
+            </DrawingImage>
+            
+            <sys:Double x:Key="foot_height">30</sys:Double>
+            <RowDefinition x:Key="foot_RowDefinition" Height="30" />
+            <SolidColorBrush x:Key="arealine_Brush" Color="#B2615C5C"/>
+
+            <!--<LinearGradientBrush x:Key="GrayBackground" EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+				<GradientStop Color="#FFCCCCCC" Offset="0"/>
+				<GradientStop Color="#FFE0E0E0" Offset="0.5"/>
+				<GradientStop Color="#FFCCCCCC" Offset="1"/>
+			</LinearGradientBrush>-->
+            <ImageBrush x:Key="GrayBackground" ImageSource="Themes/Resource/bg-gradient.png" Opacity="0.9" TileMode="Tile"/>
+            <LinearGradientBrush x:Key="a_GrayBackground" EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <GradientStop Color="#FFE0E0E0" Offset="0"/>
+                <GradientStop Color="#FFCCCCCC" Offset="0.5"/>
+                <GradientStop Color="#FFB0B0B0" Offset="1"/>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="header_GrayBackground" EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <GradientStop Color="#FFE0E0E0" Offset="0"/>
+                <GradientStop Color="#FFCCCCCC" Offset="0.5"/>
+                <GradientStop Color="#FFB0B0B0" Offset="1"/>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="footer_GrayBackground" EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <GradientStop Color="#FFE0E0E0" Offset="0"/>
+                <GradientStop Color="#FFCCCCCC" Offset="0.7"/>
+                <GradientStop Color="#FFB0B0B0" Offset="1"/>
+            </LinearGradientBrush>
+
+            <Style x:Key="FocusVisual">
+                <Setter Property="Control.Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <ControlTemplate x:Key="ValidatesOnDataErrorsTemplate">
+                <Border BorderBrush="Red" BorderThickness="2" Opacity="0.8" >
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50*"/>
+                            <RowDefinition Height="50*"/>
+                        </Grid.RowDefinitions>
+                        <AdornedElementPlaceholder x:Name="_el" />
+                        <TextBlock Foreground="Red" Text="{Binding [0].ErrorContent}" Grid.Row="1"  />
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+
+            <ControlTemplate x:Key="RoundRectTemplate" TargetType="{x:Type TextBox}">
+                <Border x:Name="border" d:DesignHeight="20" d:DesignWidth="200" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" 
+                        SnapsToDevicePixels="True" CornerRadius="8">
+                    <Grid Margin="4,0.5,4,0.5">
+                        <ScrollViewer x:Name="PART_ContentHost" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Focusable="false"
+                                HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Left" VerticalAlignment="Center"
+						        Padding="{TemplateBinding Padding}">
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+
+            <Style x:Key="RoundRectTextBox" TargetType="{x:Type TextBox}">
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="Template" Value="{StaticResource RoundRectTemplate}"/>
+            </Style>
+
+            <Style x:Key="TextBoxBlockStyle" TargetType="{x:Type TextBox}">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+                <Setter Property="IsReadOnly" Value="True"/>
+                <Setter Property="IsTabStop" Value="False"/>
+                <Setter Property="AllowDrop" Value="False"/>
+            </Style>
+
+            <DataTemplate x:Key="shellFrameContentTmp">
+                <local:TransitioningContentControl Content="{TemplateBinding Content}" CustomVisualStatesName="None" Transition="Custom">
+                    <local:TransitioningContentControl.CustomVisualStates>
+                        <VisualState x:Name="None">
+                            <Storyboard Duration="0:0:3.2">
+                            </Storyboard>
+                        </VisualState>
+                    </local:TransitioningContentControl.CustomVisualStates>
+                </local:TransitioningContentControl>
+            </DataTemplate>
+            
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

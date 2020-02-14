@@ -1,0 +1,35 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nav="using:Common">
+
+    <Style TargetType="nav:MyPage">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="nav:MyPage">
+                    <Page x:Name="page_root" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" 
+                              TopAppBar="{TemplateBinding TopAppBar}" BottomAppBar="{TemplateBinding BottomAppBar}"
+                              Transitions="{TemplateBinding Transitions}"
+                              Content="{TemplateBinding Content}">
+                    </Page>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="nav:MyFrame">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="nav:MyFrame">
+                    <ContentPresenter x:Name="frame_root" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                      ContentTransitions="{TemplateBinding ContentTransitions}" 
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Content="{TemplateBinding Content}">
+                    </ContentPresenter>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

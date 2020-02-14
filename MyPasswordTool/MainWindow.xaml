@@ -1,0 +1,32 @@
+﻿<local:MyPasswordToolWindow x:Class="MyPasswordTool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:MyPasswordTool"
+        mc:Ignorable="d"
+		Style="{StaticResource MyPasswordToolWindowStyle}"
+        Title="MyPasswordTool" Height="600" Width="960" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
+	    Icon="{StaticResource appIcon}" Background="Black"  > 
+    <!--
+    Style="{StaticResource MyPasswordToolWindowStyle}"
+    xmlns:local_view="clr-namespace:MyPasswordTool.Views" 
+    -->
+    
+    <Window.Resources>
+        
+    </Window.Resources>
+    <!--<Window.TaskbarItemInfo>
+        <TaskbarItemInfo Description="MyPasswordTool" Overlay="{StaticResource appIcon}"  >
+        </TaskbarItemInfo>
+    </Window.TaskbarItemInfo>-->
+
+    <Grid >
+        <ContentPresenter x:Name="contentPresenter">
+            <!-- shell frame -->            
+        </ContentPresenter>
+        <Grid x:Name="ChildWinDislayArea" Panel.ZIndex="7000">
+            <!-- host childwindows -->
+        </Grid>
+    </Grid>
+</local:MyPasswordToolWindow>

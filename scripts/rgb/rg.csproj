@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- <projectPath Include="{{project path}}" /> -->
+	<projectPath Include="..\..\MyPasswordTool(WPF4.6.2)\MyPasswordTool(WPF4.6.2).csproj" />
+  </ItemGroup> 
+</Project>
