@@ -74,8 +74,7 @@ namespace Common
 
         public object Get(Type type, string key = null)
         {
-            object value = null;
-            TryGet(type, key, out value);
+            TryGet(type, key, out var value);
             return value;
         }
 
