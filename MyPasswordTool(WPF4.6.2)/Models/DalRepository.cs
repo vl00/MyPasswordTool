@@ -306,8 +306,8 @@ order by t.[Order]
                     c.Execute(@"delete from PaInfoFile where ID=@ID", new { pa.ID }, tran);
                     if (pfm.File != null)
                     {
-                            //c.Insert(pfm, tran); //只适用于主键是自增的情况
-                            c.Execute(@"insert into PaInfoFile(ID,File,FileExtname,FileSize) values(@ID,@File,@FileExtname,@FileSize)", pfm, tran);
+                        //c.Insert(pfm, tran); //只适用于主键是自增的情况
+                        c.Execute(@"insert into PaInfoFile(ID,File,FileExtname,FileSize) values(@ID,@File,@FileExtname,@FileSize)", pfm, tran);
                     }
                 }
             }).ConfigureAwait(false);
