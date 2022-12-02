@@ -161,3 +161,6 @@ $RECYCLE.BIN/
 .vs
 /_backup
 /bin_tests
+update_history.ini
+rg.info.json
+log.7z
