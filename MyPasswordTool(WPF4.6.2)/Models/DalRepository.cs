@@ -24,20 +24,18 @@ namespace MyPasswordTool.Models
             void _f_()
             {
                 var sb = new SqliteConnectionStringBuilder { DataSource = db, Mode = SqliteOpenMode.ReadWrite };
-                using (var _con = new SqliteConnection(sb.ConnectionString))
+                using var _con = new SqliteConnection(sb.ConnectionString);
+                try
                 {
-                    try
-                    {
-                        _con.TryOpen();
-                        var k = _con.ExecuteScalar(" select Quote(@k) ", new { k = key });
-                        _con.ExecuteScalar($" PRAGMA key={k} ");
-                        if (4 < _con.ExecuteScalar<int>("SELECT count(1) FROM sqlite_master WHERE type='table' AND name IN('PaInfoTag','PaTag','PaInfo','PaInfoFile')"))
-                            throw new ArgumentNullException("不是painfo数据库");
-                    }
-                    catch (SqliteException ex) when (ex.SqliteErrorCode == SQLitePCL.raw.SQLITE_NOTADB)
-                    {
-                        throw new InvalidOperationException("pwd error or not a db", ex);
-                    }
+                    _con.TryOpen();
+                    var k = _con.ExecuteScalar(" select Quote(@k) ", new { k = key });
+                    _con.ExecuteScalar($" PRAGMA key={k} ");
+                    if (4 < _con.ExecuteScalar<int>("SELECT count(1) FROM sqlite_master WHERE type='table' AND name IN('PaInfoTag','PaTag','PaInfo','PaInfoFile')"))
+                        throw new ArgumentNullException("不是painfo数据库");
+                }
+                catch (SqliteException ex) when (ex.SqliteErrorCode == SQLitePCL.raw.SQLITE_NOTADB)
+                {
+                    throw new InvalidOperationException("pwd error or not a db", ex);
                 }
             }
         }
@@ -45,13 +43,11 @@ namespace MyPasswordTool.Models
         public async Task NewDB(string db, string key)
         {
             var sb = new SqliteConnectionStringBuilder { DataSource = db, Mode = SqliteOpenMode.ReadWriteCreate };
-            using (var _con = new SqliteConnection(sb.ConnectionString))
-            {
-                await _con.TryOpenAsync().ConfigureAwait(false);
-                var k = await _con.ExecuteScalarAsync(" select Quote(@k) ", new { k = key }).ConfigureAwait(false);
-                await _con.ExecuteScalarAsync($" PRAGMA key={k} ").ConfigureAwait(false);
-                await _con.ExecuteAsync(Consts.str_newdb).ConfigureAwait(false);
-            }
+            using var _con = new SqliteConnection(sb.ConnectionString);
+            await _con.TryOpenAsync().ConfigureAwait(false);
+            var k = await _con.ExecuteScalarAsync(" select Quote(@k) ", new { k = key }).ConfigureAwait(false);
+            await _con.ExecuteScalarAsync($" PRAGMA key={k} ").ConfigureAwait(false);
+            await _con.ExecuteAsync(Consts.str_newdb).ConfigureAwait(false);
         }
 
         public async Task<T> GetAsync<T>(object id) where T : class
@@ -72,13 +68,11 @@ namespace MyPasswordTool.Models
         public async Task<int> AddPaTagAsync(PaTag entity)
         {
             var con = await DbConnInfo.GetConnAsync().ConfigureAwait(false);
-            using (var t = con.BeginTransaction())
-            {
-                await con.InsertAsync(entity, t).ConfigureAwait(false);
-                await con.ExecuteAsync("update PaTag set HasChild=1 where ID=@pid", new { pid = entity.PID }, t).ConfigureAwait(false);
-                t.Commit();
-                return entity.Order = entity.ID;
-            }
+            using var t = con.BeginTransaction();
+            await con.InsertAsync(entity, t).ConfigureAwait(false);
+            await con.ExecuteAsync("update PaTag set HasChild=1 where ID=@pid", new { pid = entity.PID }, t).ConfigureAwait(false);
+            t.Commit();
+            return entity.Order = entity.ID;
         }
 
         public async Task<int> UpdatePaTagAsync(PaTag entity)
@@ -91,25 +85,21 @@ namespace MyPasswordTool.Models
         public async Task UpdatePaTagsAsync(params PaTag[] entities)
         {
             var con = await DbConnInfo.GetConnAsync().ConfigureAwait(false);
-            using (var t = con.BeginTransaction())
-            {
-                await Task.WhenAll(entities.Select(m => con.UpdateAsync(m, t))).ConfigureAwait(false);
-                t.Commit();
-            }
+            using var t = con.BeginTransaction();
+            await Task.WhenAll(entities.Select(m => con.UpdateAsync(m, t))).ConfigureAwait(false);
+            t.Commit();
         }
 
         public async Task DeletePaTagAsync(int id, int pid)
         {
             if (id <= 0) return;
             var con = await DbConnInfo.GetConnAsync().ConfigureAwait(false);
-            using (var t = con.BeginTransaction())
-            {
-                await con.ExecuteAsync(@"
+            using var t = con.BeginTransaction();
+            await con.ExecuteAsync(@"
 delete from PaTag where ID in @id;
 update PaTag set HasChild=(case when EXISTS(SELECT 1 from PaTag WHERE PID=@pid) then 1 else 0 end) where ID=@pid;
 ", new { id = new[] { id }, pid }, t).ConfigureAwait(false);
-                t.Commit();
-            }
+            t.Commit();
         }
     }
 
@@ -232,42 +222,36 @@ LIMIT @i,@size";
         public async Task ClearPaInfoTagByPaInfoID(int id)
         {
             var con = await DbConnInfo.GetConnAsync().ConfigureAwait(false);
-            using (var t = con.BeginTransaction())
-            {
-                await con.ExecuteAsync(@"
+            using var t = con.BeginTransaction();
+            await con.ExecuteAsync(@"
 update PaInfo set IsDeleted=0 where ID=@id;
 DELETE from PaInfoTag WHERE PaInfoID=@id;
 ", new { id }, t).ConfigureAwait(false);
-                t.Commit();
-            }
+            t.Commit();
         }
 
         public async Task AddPaInfoTag(int paInfoID, int tagID)
         {
             var con = await DbConnInfo.GetConnAsync().ConfigureAwait(false);
-            using (var t = con.BeginTransaction())
-            {
-                await con.ExecuteAsync(@"
+            using var t = con.BeginTransaction();
+            await con.ExecuteAsync(@"
 update PaInfo set IsDeleted=0 where ID=@paInfoID;
 INSERT INTO PaInfoTag(TagID,PaInfoID) SELECT @tagID,@paInfoID WHERE @tagID>0 AND NOT EXISTS(
     SELECT 1 FROM PaInfoTag WHERE TagID=@tagID AND PaInfoID=@paInfoID and TagID>0
 );
 ", new { tagID, paInfoID }, t).ConfigureAwait(false);
-                t.Commit();
-            }
+            t.Commit();
         }
 
         public async Task DelTruePaInfoAsync(int id)
         {
             var con = await DbConnInfo.GetConnAsync().ConfigureAwait(false);
-            using (var t = con.BeginTransaction())
-            {
-                await con.ExecuteAsync(@"
+            using var t = con.BeginTransaction();
+            await con.ExecuteAsync(@"
 delete from PaInfo where ID=@id;
 delete from PaInfoTag where PaInfoID=@id;
 ", new { id }, t).ConfigureAwait(false);
-                t.Commit();
-            }
+            t.Commit();
         }
     }
 
@@ -305,31 +289,29 @@ order by t.[Order]
         public async Task SavePaInfoAsync(PaInfo pa, PaTag[] tags, PaInfoFile pfm)
         {
             var c = await DbConnInfo.GetConnAsync().ConfigureAwait(false);
-            using (var tran = c.BeginTransaction())
+            using var tran = c.BeginTransaction();
+            await Task.Run(() =>
             {
-                await Task.Run(() =>
+                c.Update(pa, tran);
+
+                c.Execute("delete from PaInfoTag where PaInfoID=@ID", new { pa.ID }, tran);
+                if (tags != null)
                 {
-                    c.Update(pa, tran);
+                    foreach (var t in tags)
+                        c.Insert(new PaInfoTag { PaInfoID = pa.ID, TagID = t.ID }, tran);
+                }
 
-                    c.Execute("delete from PaInfoTag where PaInfoID=@ID", new { pa.ID }, tran);
-                    if (tags != null)
+                if (pfm != null)
+                {
+                    c.Execute(@"delete from PaInfoFile where ID=@ID", new { pa.ID }, tran);
+                    if (pfm.File != null)
                     {
-                        foreach (var t in tags)
-                            c.Insert(new PaInfoTag { PaInfoID = pa.ID, TagID = t.ID }, tran);
+                        //c.Insert(pfm, tran); //只适用于主键是自增的情况
+                        c.Execute(@"insert into PaInfoFile(ID,File,FileExtname,FileSize) values(@ID,@File,@FileExtname,@FileSize)", pfm, tran);
                     }
-
-                    if (pfm != null)
-                    {
-                        c.Execute(@"delete from PaInfoFile where ID=@ID", new { pa.ID }, tran);
-                        if (pfm.File != null)
-                        {
-                            //c.Insert(pfm, tran); //只适用于主键是自增的情况
-                            c.Execute(@"insert into PaInfoFile(ID,File,FileExtname,FileSize) values(@ID,@File,@FileExtname,@FileSize)", pfm, tran);
-                        }
-                    }
-                }).ConfigureAwait(false);
-                tran.Commit();
-            }
+                }
+            }).ConfigureAwait(false);
+            tran.Commit();
         }
     }
 }
