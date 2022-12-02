@@ -162,9 +162,9 @@ $RECYCLE.BIN/
 /_backup/
 /bin_tests/
 ./update_history.ini
-./scripts/rgb/rg.info.json
-./scripts/rg.redux/rg.info.json
-./scripts/rg.map.mvvm/rg.info.json
-./scripts/rgb/log.7z
-./scripts/rg.redux/log.7z
-./scripts/rg.map.mvvm/log.7z
+/scripts/rgb/rg.info.json
+/scripts/rg.redux/rg.info.json
+/scripts/rg.map.mvvm/rg.info.json
+/scripts/rg.redux/log.7z
+/scripts/rg.map.mvvm/log.7z
+/scripts/rgb/log.7z
