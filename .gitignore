@@ -161,7 +161,7 @@ $RECYCLE.BIN/
 .vs
 /_backup/
 /bin_tests/
-./update_history.ini
+/update_history.ini
 /scripts/rgb/rg.info.json
 /scripts/rg.redux/rg.info.json
 /scripts/rg.map.mvvm/rg.info.json
